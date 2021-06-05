@@ -46,7 +46,9 @@ class Student(db.Model):
 
     def getCredentials(self):
         return {
-            "fullname" : self.fullname , 
+            "fullname" : self.fullname ,
+            "email": self.email
+        } 
     def getJsonData(self):
         data =  {
             "id": self.id,
@@ -64,8 +66,7 @@ class Student(db.Model):
             data["resume"] = True
         else:
             data["resume"] = False
-        "email" : self.email
-        }
+        return data
     
     
     def setPhoto(self, image):

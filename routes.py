@@ -29,9 +29,9 @@ def verify_admin(token):
         return(msg)
     return(True)
 
-@app.route('/') 
+@app.route('/test') 
 def home():
-    return "Home" 
+    return jsonify({"status": "success"})
 
 
 @app.route('/API/login', methods=['POST'])
@@ -330,7 +330,7 @@ def add_event():
         return jsonify(msg)
     name = request.form.get('name')
     event_type = request.form.get('event_type')
-    poster = request.form.get('poster')
+    poster = request.form.get('poster')   ######### Diffwrebt API
     content = request.form.get('content')
     reg_form = request.form.get('form')
     organizer = request.form.get('organizer')
@@ -380,7 +380,7 @@ def add_event():
             })
 
 @app.route('/API/add_profile', methods=['POST'])
-def get_event():
+def add_profile():
     AUTHS = ["Student"]
     token = request.form.get('token')
     user_type = request.form.get('type')
@@ -404,6 +404,12 @@ def get_event():
     user.phone = phone
     user.course = course
     db.session.commit()
+    return jsonify({
+        "status": {
+            "type": "success",
+            "message": "profile updated successfully"
+        }
+    })
 
 @app.route('/API/get_event', methods=['POST'])
 def get_event():
@@ -483,3 +489,4 @@ def register_event():
                 "message": "Registration Done Successfully"
             }
         })
+

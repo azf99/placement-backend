@@ -20,4 +20,7 @@ superuser.set_password(PASSWORD)
 db.session.add(superuser)
 db.session.commit() 
 
-app.run(debug=True)
+
+
+
+#app.run(debug = True)
