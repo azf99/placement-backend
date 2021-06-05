@@ -4,3 +4,4 @@ Flask-HTTPAuth==4.1.0
 Flask-SQLAlchemy==2.5.1
 gunicorn==20.0.4
 Werkzeug==0.16.0
+psycopg2
