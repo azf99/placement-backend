@@ -1,4 +1,6 @@
-flask
-Flask-SQLAlchemy
-gunicorn
-werkzeug
+Flask==1.1.2
+Flask-Cors==3.0.8
+Flask-HTTPAuth==4.1.0
+Flask-SQLAlchemy==2.5.1
+gunicorn==20.0.4
+Werkzeug==0.16.0
