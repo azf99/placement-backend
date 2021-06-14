@@ -130,6 +130,7 @@ def login():
 def register():
     AUTHS = ["Admin", "Student", "Company"]
     password = request.form.get('password')
+    fullname = request.form.get('fullname')
     email = request.form.get('email')
     user_type = request.form.get('type')
     token = request.form.get('token')
@@ -160,6 +161,7 @@ def register():
             return jsonify(msg)
         
         u = Student()
+        u.fullname = fullname
         u.email = email 
         u.set_password(password) 
 
@@ -411,8 +413,8 @@ def add_profile():
         }
     })
 
-@app.route('/API/get_event', methods=['POST'])
-def get_event():
+@app.route('/API/get_event_list', methods=['POST'])
+def get_event_list():
     AUTHS = ["Admin", "Student", "Company"]
     token = request.form.get('token')
     user_type = request.form.get('type')
@@ -427,6 +429,8 @@ def get_event():
         return jsonify(msg) 
     user = Student.query.filter_by(auth_token=token).first() 
     auth = check_token(token, user)
+    if auth != True:
+        return jsonify(auth)
     date = datetime.now()
     today = str(date.year) + "-" + str(date.month) + "-" + str(date.day)
     today = datetime.strptime(today, '%Y-%m-%d')
@@ -446,6 +450,44 @@ def get_event():
                 "completed": completed
             }
         })
+
+@app.route('/API/get_poster', methods=['GET', 'POST'])
+def get_poster():
+    AUTHS = ["Admin", "Student", "Company"]
+    token = request.form.get('token')
+    get_id = request.form.get('id')
+    user_type = request.form.get('type')
+    msg = ""
+    if not token and user_type not in AUTHS: 
+        msg = {
+            "status" : { 
+                "type" : "failure" ,   
+                "message" : "missing data"
+                }
+            }
+        return jsonify(msg) 
+    user = Student.query.filter_by(auth_token=token).first() 
+    auth = check_token(token, user)
+    if auth != True:
+        return jsonify(auth)
+    x = db.session.query(Event).filter(Event.id == get_id).first()
+    if x is None:
+        msg = {
+            "status": {
+                "type": "failure",
+                "message": "id does not exist"
+            }
+        }
+    
+    img = x.get_poster()
+    msg = {
+        "status": {
+            "type": "success",
+            "message": "id does not exist"
+        }
+        "image": img
+    }
+    return jsonify(msg)
 
 @app.route('/API/register_event', methods=['POST'])
 def register_event():

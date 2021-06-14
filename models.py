@@ -136,6 +136,8 @@ class Event(db.Model):
                 "event_date": self.event_date,
                 "venue": self.venue
                 }
+    def getImage(self):
+        return self.poster
 
 
 class Registrations(db.Model):
